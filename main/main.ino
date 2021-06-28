@@ -11,7 +11,6 @@
 */
 
 #include "stepMotor.h"
-#include "arduino.h"
 
 /* ------------- Definições ------------- */
 
