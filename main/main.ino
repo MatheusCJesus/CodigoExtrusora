@@ -82,6 +82,8 @@ void setup() {
 
   Serial.begin(9600); // Seta a valocidade da comunicação serial em 9600 baud/s
 
+  
+
 /* ------------ Configurar os PWMs dos pinos STEP_P e STEP_B ------------ */
 //INÍCIO
   TCCR1A = 0b01100001; // 0110 0001
