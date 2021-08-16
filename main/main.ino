@@ -9,33 +9,43 @@
   Bolsista FAPESP
 --------------------------------------------------------------------------------
 */
-#include "Arduino.h"
-#include "definition.h"
-#include "stepMotor.h"
-#include "caliper.h"
 
-int incomingByte;
+#include "caliper.h"
+#include "thermo.h"
+#include "timerEvent.h"
+#include "stepMotor.h"
 
 /* ------------- Fim das definições ------------- */
+
 void setup() {
   // put your setup code here, to run once:
 
   Serial.begin(9600); // Seta a valocidade da comunicação serial em 9600 baud/s
-  
-  define_pwm(); // Chama a função que define os pinos x e x como saída de PWM
-  
+
+  define_pwm(); // Define os pinos D11 e D46 como saída de PWM.
+
+  Set_INPUT_pins();
+
+  pinMode(LED_BUILTIN, OUTPUT);
+
+  Set_EXTERNAL_INTERRUPT();
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
+   
+  delay(500);
 
-  if(Serial.available() > 0) {
-
-    incomingByte = Serial.read();
-
-    rpm_motor(incomingByte, 10);
+  if (display_flag) {
+    
+    Serial.println(thermoN.readCelsius());
+    Serial.println(thermo2.readCelsius());
+    Serial.println(thermo3.readCelsius());
+    Serial.println(thermo4.readCelsius());
+    Serial.println(thermo5.readCelsius());
+    Serial.println(thermo6.readCelsius());
 
   }
-
+  
 }

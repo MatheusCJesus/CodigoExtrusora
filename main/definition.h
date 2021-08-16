@@ -14,9 +14,9 @@
 
 // Pinos digitais dos módulos de termopar
 // INÍCIO
-#define SCK_1 22  //-----------
-#define SO_1  24  // Termopar 1
-#define CS_1  26  //-----------
+#define SCK_1 22  //------------ ------
+#define SO_1  24  // Termopar 1: Nozzle
+#define CS_1  26  //------------ ------
 
 #define SCK_2 23  //-----------
 #define SO_2  27  // Termopar 2
@@ -41,8 +41,8 @@
 
 // Pinos digitais do paquímetro
 // INÍCIO
-#define DATAPIN_PAQ 3  // Pino de informação do paquímetro
-#define CLKPIN_PAQ  4  // Pinos de clock do paquímetro
+#define DATAPIN_PAQ 2  // Pino de informação do paquímetro
+#define CLKPIN_PAQ  3  // Pinos de clock do paquímetro
 //FIM
 
 // Pinos digitais drivers motor de passo
@@ -64,7 +64,7 @@
 #define PWM_DCMOTOR 44 // Pino de saída do PWM do motor DC
 #define IN_A 34        // Pino que habilita a PONTE H do lado A
 #define IN_B 32        // Pino que habilita a PONTE H do lado B
-#define CS   36        // Pino analógico para o sensor de sobrecorrente
+#define CS_DC   36        // Pino analógico para o sensor de sobrecorrente
 //FIM
 
 // Pino digital para PWM das resistências de aquecimento
