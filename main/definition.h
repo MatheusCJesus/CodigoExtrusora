@@ -1,7 +1,7 @@
 
 /* 
 --------------------------------------------------------------------------------
-  Algoritimo para controlar todo o sistema da máquina extrusora
+  Biblioteca com as definições do algoritmo
   Placa: v1.0
 --------------------------------------------------------------------------------
   Autor: Matheus Cerqueira de Jesus
@@ -41,8 +41,8 @@
 
 // Pinos digitais do paquímetro
 // INÍCIO
-#define DATAPIN_PAQ 2  // Pino de informação do paquímetro
-#define CLKPIN_PAQ  3  // Pinos de clock do paquímetro
+#define DATAPIN_PAQ 4 // Pino de informação do paquímetro
+#define CLKPIN_PAQ  3 // Pinos de clock do paquímetro
 //FIM
 
 // Pinos digitais drivers motor de passo
@@ -61,7 +61,7 @@
 
 // Pinos digitais do driver de motor DC (Shield VNH2SP30)
 //INÍCIO
-#define PWM_DCMOTOR 44 // Pino de saída do PWM do motor DC
+#define PWM_DCMOTOR 13 // Pino de saída do PWM do motor DC 44 real
 #define IN_A 34        // Pino que habilita a PONTE H do lado A
 #define IN_B 32        // Pino que habilita a PONTE H do lado B
 #define CS_DC   36        // Pino analógico para o sensor de sobrecorrente
@@ -70,4 +70,13 @@
 // Pino digital para PWM das resistências de aquecimento
 //INÍCIO
 #define PWM_RES 7 // Pino de saída do PWM das resistências
+
+// Códigos para interface de comandos pela serial
+
+/*
+  G1 -> Velocidade do motor extrusor. Ex: G1 A 50 -> sentido anti-horário 50% PWM
+  G2 -> Velocidade dos motores de passo. Ex: G2 P 2 -> motor puxador em 2 rpm (motor boninador "B")
+  G3 -> PWM das resistências. Ex: G3 80 -> PWM das resistências em 80%
+  G4 -> Tempo de impressão das informações no monitor serial. Ex: G4 2 -> Imprime as informações a cada 2 segundos.
+*/
 //FIM

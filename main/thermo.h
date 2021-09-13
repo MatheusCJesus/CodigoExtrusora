@@ -1,6 +1,6 @@
 /* 
 --------------------------------------------------------------------------------
-  Algoritmo para controlar os drivers de thermopar
+  Biblioteca para controlar os drivers de thermopar
   Placa: v1.0
 --------------------------------------------------------------------------------
   Autor: Matheus Cerqueira de Jesus
@@ -21,3 +21,21 @@
   MAX6675 thermo5(SCK_5, CS_5, SO_5); // Termopar 5
   MAX6675 thermo6(SCK_6, CS_6, SO_6); // Termopar 6
 
+void define_pwm_res() {
+
+  DDRH |= (1 << DDH4);  // pinMode(7, OUTPUT);
+
+  TCCR4A |= (1 << WGM41);
+  TCCR4A |= (1 << WGM40);
+  TCCR4A |= (1 << COM4B1);
+  TCCR4B &= ~(1 << CS42);
+
+}
+
+void pwm_res(float pwm) {
+
+  float pwm_8bits = ( 1024 * pwm ) / 100;
+
+    OCR4B = uint16_t(pwm_8bits);
+
+}

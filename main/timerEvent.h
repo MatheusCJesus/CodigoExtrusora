@@ -1,6 +1,6 @@
 /* 
 --------------------------------------------------------------------------------
-  Algoritmo para controlar as interrupções internas
+  Biblioteca para controlar as interrupções internas
   Placa: v1.0
 --------------------------------------------------------------------------------
   Autor: Matheus Cerqueira de Jesus
@@ -9,17 +9,19 @@
 --------------------------------------------------------------------------------
 */
 
-uint8_t time = 0; // Tempo em segundos para gerar a interrupção
+uint8_t tempo = 0; // Tempo em segundos para gerar a interrupção
 uint16_t t3_comp = 0; // Valor para ser atribuído no registrador 
                       // para gerar a interrupção no tempo escolhido
 
-const uint16_t prescaler = 1024;
+const float prescaler = 1024;
 
 bool display_flag = false;
 
-void set_time(uint8_t time){
+void set_time(float tempo){
 
-  t3_comp = uint8_t((time*16000000)/prescaler);
+  t3_comp = tempo*16000000/prescaler;
+
+  OCR3A = uint16_t(t3_comp);
 
 }
 

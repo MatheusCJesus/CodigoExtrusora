@@ -14,33 +14,59 @@
 //INÍCIO
 void define_pwm() {
 
-  DDRB = 0b00100000;  // pinMode(11, OUTPUT);
-  DDRL = 0b00001000;  // pinMode(46, OUTPUT);
+  DDRB |= (1 << DDB5);  // pinMode(11, OUTPUT);
+  DDRL |= (1 << DDL3);  // pinMode(46, OUTPUT);
 
 
   // Configura o PWM nos modos "Phase and frequency correct" - tabela 17-2 do datasheet
 
-  TCCR1A = 0b01100001;  // D11
-  TCCR1B = 0b00010001;
+  TCCR5A = 0;
+  TCCR5B = 0;
+  TCCR1A = 0;
+  TCCR1B = 0;
 
-  TCCR5A = 0b01100001;  // D46
-  TCCR5B = 0b00010001;
+  // D11
+  TCCR1A &= ~(1 << WGM11);
+  TCCR1A |=  (1 << WGM10);
+
+  TCCR1A &= ~(1 << COM1A1);
+  TCCR1A |=  (1 << COM1A0);
+
+  TCCR1B &= ~(1 << WGM12);
+  TCCR1B |=  (1 << WGM13);
+
+  TCCR1B &= ~(1 << CS11);
+  TCCR1B |=  (1 << CS10);
+
+  //D46
+  TCCR5A &= ~(1 << WGM51);
+  TCCR5A |=  (1 << WGM50);
+
+  TCCR5A &= ~(1 << COM5A1);
+  TCCR5A |=  (1 << COM5A0);
+
+  TCCR5B &= ~(1 << WGM52);
+  TCCR5B |=  (1 << WGM53);
+
+  TCCR5B &= ~(1 << CS51);
+  TCCR5B |=  (1 << CS50);
+  
 }
 //FIM
 
-void rpm_motor(char motor, int rpm) {
+void rpm_motor(char motor, float rpm) {
 
   // Micro passo = 1/32 avos
   // Angulo por passo = 0,05625 --> 0,05625*passos = 360
   // Passos para dar uma volta = 6400
 
-  int freq = 0;
+  float freq = 0.0;
 
   if (motor == 'p' | motor == 'P') {
 
     freq = (rpm * 6400) / 60;
     ICR1 = 0;
-    OCR1A = 16000000 / (4 * 1 * freq);
+    OCR1A = uint16_t(16000000 / (4 * 1 * freq));
 
   } else {
 
@@ -48,7 +74,8 @@ void rpm_motor(char motor, int rpm) {
 
       freq = (rpm * 6400) / 60;
       ICR5 = 0;
-      OCR5A = 16000000 / (4 * 1 * freq);
+      OCR5A = uint16_t(16000000 / (4 * 1 * freq));
+
     }
   }
 }
