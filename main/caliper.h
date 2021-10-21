@@ -21,6 +21,7 @@ long lastInterrupt = 0;
 uint8_t currentBit = 1;   // Variável de controle de bits de comunicação do paquímetro.
 int newValue = 0; // Variável de controle para novos valores.
 int sign = 1;
+
 void Set_INPUT_pins() {
 
   DDRE &= ~(1 << DATAPIN_PAQ); // pinMode(DATAPIN_PAQ, INPUT);
@@ -73,7 +74,7 @@ float getFinalValue() {
 
 }
 
-void Set_EXTERNAL_INTERRUPT() {
+void Set_EXTERNAL_INTERRUPT_CALIPER() {
 /* Configura interrupção externa nos registadores como borda de
    subida para o pino de clock do paquímetro (D3) (CLKPIN_PAQ) */
 
@@ -84,6 +85,6 @@ void Set_EXTERNAL_INTERRUPT() {
 
 }
 
- ISR(INT5_vect){ // Função de interrupção.
+ISR(INT5_vect){ // Função de interrupção.
    decode();
 }

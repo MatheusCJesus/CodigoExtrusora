@@ -17,6 +17,8 @@
 #include "stepMotor.h"
 #include "DCmotor.h"
 
+/* ------------- Início das definições ------------- */
+
 char inputString[10];      // a String to hold incoming data
 bool stringComplete = false, erro = false;  // whether the string is complete
 char *token;
@@ -25,6 +27,11 @@ char valid_commands[4] = {'1','2','3','4'};
 uint8_t i = 0;
 uint8_t buf_len = 0;
 char buf[10];
+
+float soma_i_out = 0;
+float media_i_out = 0;
+uint8_t l = 0;
+uint8_t k = 0;
 
 /* ------------- Fim das definições ------------- */
 
@@ -40,7 +47,8 @@ void setup() {
 
   Set_INPUT_pins();
 
-  Set_EXTERNAL_INTERRUPT();
+  Set_EXTERNAL_INTERRUPT_CALIPER();
+  Set_EXTERNAL_INTERRUPT_RPM();
   set_time(4);
   
 }
@@ -49,20 +57,45 @@ void loop() {
 
   //put your main code here, to run repeatedly:
 
+  if (k == 100) {
+
+    if (l < 5) {
+
+      soma_i_out += calcula_CS();
+
+      l++;      
+
+    } else {
+
+      media_i_out = soma_i_out / l;
+      soma_i_out = 0.0;
+
+      l = 0;
+      
+    }
+
+    k = 0;
+
+  }
+
   if (display_flag) {
     
-    Serial.println(thermoN.readCelsius());
-    Serial.println(thermo2.readCelsius());
-    Serial.println(thermo3.readCelsius());
+    Serial.print(thermoN.readCelsius());
+    Serial.print(" || ");
+    Serial.print(thermo2.readCelsius());
+    Serial.print(" || ");
+    Serial.print(thermo3.readCelsius());
+    Serial.print(" || ");
     Serial.println(thermo4.readCelsius());
-    Serial.println(thermo5.readCelsius());
-    Serial.println(thermo6.readCelsius());
+    Serial.println(media_i_out);
+
+    //Serial.println(thermo5.readCelsius());
+    //Serial.println(thermo6.readCelsius());
     display_flag = false;
 
  }
 
   if(inputString[0] == 'G') {
-   // Serial.println("entrei no if G");
     for(int i = 0; i < 4; i++) {
       if(inputString[1] == valid_commands[i]) {
         commands = i + 1;
@@ -71,9 +104,6 @@ void loop() {
     }
   }
   if (stringComplete) {
-  //Serial.println("Entrei");
-    //switch (commands) {
-
       if(commands == 1){ 
 
         char rotacao[1];
@@ -151,6 +181,8 @@ void loop() {
 
       }
   }
+
+  k++;
   
 }
 

@@ -49,6 +49,7 @@
 // INÍCIO
 #define STEP_P 11 // Pino de controle de passos do motor PUXADOR
 #define DIR_P  12 // Pino de controle de direção do motor PUXADOR
+//FIM
 
 #define STEP_B 46 // Pino de controle de passos do motor BOBINADOR
 #define DIR_B  48 // Pino de contrle de direção do motor BOBINADOR
@@ -70,6 +71,11 @@
 // Pino digital para PWM das resistências de aquecimento
 //INÍCIO
 #define PWM_RES 7 // Pino de saída do PWM das resistências
+//FIM
+
+#define DIV_VOLTAGE 0.004887585 // Resolução de tensão do conversor AD de 10 bits
+
+#define passos_por_volta 20
 
 // Códigos para interface de comandos pela serial
 
