@@ -11,10 +11,10 @@
 
 // // ------------------------- Declarações de variáveis --------------------------
 
-float tempo_passado = 0.0;
-float tempo_atual = 0.0;
+uint32_t tempo_passado = 0.0;
+uint32_t tempo_atual = 0.0;
 
-uint8_t passos = 0;
+uint32_t passos = 0;
 
 void define_DCpwm() {
 
@@ -81,11 +81,13 @@ float get_rpm() {
 
   float rpm = 0.0;
 
-  tempo_atual = millis();
+  tempo_atual = millis(); 
 
   if (tempo_atual - tempo_passado > 1000) {
 
-    rpm = (60 * 1000 / passos_por_volta) / (tempo_atual - tempo_passado) * passos;
+    float tempo = tempo_atual - tempo_passado;
+
+    rpm = (60000/(tempo * (float)passos_por_volta)) * passos;
 
     tempo_passado = tempo_atual;
 

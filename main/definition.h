@@ -75,7 +75,7 @@
 
 #define DIV_VOLTAGE 0.004887585 // Resolução de tensão do conversor AD de 10 bits
 
-#define passos_por_volta 20
+#define passos_por_volta 40
 
 // Códigos para interface de comandos pela serial
 

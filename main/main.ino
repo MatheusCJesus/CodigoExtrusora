@@ -79,7 +79,8 @@ void loop() {
   }
 
   if (display_flag) {
-    
+
+    Serial.println("===================================");   
     Serial.print(thermoN.readCelsius());
     Serial.print(" || ");
     Serial.print(thermo2.readCelsius());
@@ -87,7 +88,11 @@ void loop() {
     Serial.print(thermo3.readCelsius());
     Serial.print(" || ");
     Serial.println(thermo4.readCelsius());
+    
+    Serial.print("I_motor: ");
     Serial.println(media_i_out);
+    Serial.print("RPM motor DC: ");
+    Serial.println(get_rpm());
 
     //Serial.println(thermo5.readCelsius());
     //Serial.println(thermo6.readCelsius());
