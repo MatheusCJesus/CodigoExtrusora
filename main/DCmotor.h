@@ -11,8 +11,8 @@
 
 // // ------------------------- Declarações de variáveis --------------------------
 
-uint32_t tempo_passado = 0.0;
-uint32_t tempo_atual = 0.0;
+uint32_t tempo_passado = 0;
+uint32_t tempo_atual = 0;
 
 uint32_t passos = 0;
 

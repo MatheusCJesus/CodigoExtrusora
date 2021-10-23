@@ -39,3 +39,35 @@ void pwm_res(float pwm) {
     OCR4B = uint16_t(pwm_8bits);
 
 }
+
+float current_res1() { // Função para calcular a corrente no ramo 1 de resistências
+
+  float voltage = 0.0;
+  float i_res1 = 0.0;
+  uint16_t sensor_value = 0;
+
+  sensor_value = analogRead(A8);
+
+  voltage = DIV_VOLTAGE * sensor_value;
+
+  i_res1 = voltage / 0.1;
+
+  return i_res1;
+
+}
+
+float current_res2() { // Função para calcular a corrente no ramo 2 de resistências
+
+  float voltage = 0.0;
+  float i_res2 = 0.0;
+  uint16_t sensor_value = 0;
+
+  sensor_value = analogRead(A9);
+
+  voltage = DIV_VOLTAGE * sensor_value;
+
+  i_res2 = voltage / 0.1;
+
+  return i_res2;
+
+}

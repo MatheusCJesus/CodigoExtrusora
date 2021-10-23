@@ -80,22 +80,28 @@ void loop() {
 
   if (display_flag) {
 
-    Serial.println("===================================");   
+    Serial.println("============Temperaturas=============");
+    Serial.print("Nuzzle: ");
     Serial.print(thermoN.readCelsius());
-    Serial.print(" || ");
+    Serial.print(" || Termopar 2: ");
     Serial.print(thermo2.readCelsius());
-    Serial.print(" || ");
+    Serial.print(" || Termopar 3: ");
     Serial.print(thermo3.readCelsius());
-    Serial.print(" || ");
+    Serial.print(" || Termopar 4: ");
     Serial.println(thermo4.readCelsius());
     
+    Serial.println("==============Motor DC==============="); 
     Serial.print("I_motor: ");
     Serial.println(media_i_out);
-    Serial.print("RPM motor DC: ");
+    Serial.print(" || RPM motor DC: ");
     Serial.println(get_rpm());
 
-    //Serial.println(thermo5.readCelsius());
-    //Serial.println(thermo6.readCelsius());
+    Serial.println("============Resistencias============="); 
+    Serial.print("I_res1: ");
+    Serial.println(current_res1());
+    Serial.print(" || I_res2: ");
+    Serial.println(current_res2());
+    
     display_flag = false;
 
  }
