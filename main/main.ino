@@ -49,7 +49,7 @@ void setup() {
 
   Set_EXTERNAL_INTERRUPT_CALIPER();
   Set_EXTERNAL_INTERRUPT_RPM();
-  set_time(4);
+  set_time(2);
   
 }
 
@@ -78,6 +78,8 @@ void loop() {
 
   }
 
+  // Controle de temperatura das resistências
+
   if (display_flag) {
 
     Serial.println("============Temperaturas=============");
@@ -92,15 +94,22 @@ void loop() {
     
     Serial.println("==============Motor DC==============="); 
     Serial.print("I_motor: ");
-    Serial.println(media_i_out);
+    Serial.print(media_i_out);
     Serial.print(" || RPM motor DC: ");
     Serial.println(get_rpm());
 
     Serial.println("============Resistencias============="); 
     Serial.print("I_res1: ");
-    Serial.println(current_res1());
+    Serial.print(current_res1());
     Serial.print(" || I_res2: ");
     Serial.println(current_res2());
+
+    Serial.println("========Diametro do filamento========");
+    Serial.print("Diametro[mm]: ");
+    Serial.println(getFinalValue());
+
+    // Chama a função de controle de temperatura
+    temp_control();
     
     display_flag = false;
 
@@ -110,7 +119,6 @@ void loop() {
     for(int i = 0; i < 4; i++) {
       if(inputString[1] == valid_commands[i]) {
         commands = i + 1;
-        Serial.println(commands);
       }
     }
   }
@@ -127,7 +135,6 @@ void loop() {
 
         token = strtok(NULL, " ");
         e_pwm = atof(token);
-        Serial.println(e_pwm, DEC);
 
         pwm_motor(rotacao[0], e_pwm);
 
@@ -162,13 +169,29 @@ void loop() {
       if(commands == 3){//case 3: 
 
         float Rpwm;
+        char control;
 
         token = strtok(inputString, " ");
         token = strtok(NULL, " ");
-        Rpwm = atof(token);
-        Serial.println(Rpwm);
-
-        pwm_res(Rpwm);
+        control = token[0];
+        Serial.println(control);
+        if (control == 'm' | control == 'M') {
+          temp_flag = false;
+          token = strtok(NULL, " ");
+          Rpwm = atof(token);
+          pwm_res(Rpwm);
+          Serial.println(Rpwm);
+        } else {
+          if (control == 'a' | control == 'A') {
+            temp_flag = true;
+            token = strtok(NULL, " ");
+            temp = atof(token);
+            temp_control();
+            Serial.println(temp);
+          } else {
+            temp_flag = false;
+          }
+        }
 
         memset(inputString, NULL, 10);
 

@@ -14,13 +14,17 @@
 uint32_t tempo_passado = 0;
 uint32_t tempo_atual = 0;
 
-uint32_t passos = 0;
+uint32_t t_passado_Interrupt = 0;
+uint32_t t_atual_Interrupt = 0;
+
+uint16_t passos = 0;
 
 void define_DCpwm() {
 
   DDRB |= (1 << DDB7);  // pinMode(13, OUTPUT);
   DDRC |= (1 << DDC5);  // pinMode(32, OUTPUT);
   DDRC |= (1 << DDC3);  // pinMode(34, OUTPUT);
+  DDRD &= ~(1 << DDD1);  // pinMode(20, OUTPUT);
 
   TCCR0A |= (1 << WGM01);
   TCCR0A |= (1 << WGM00);
@@ -52,7 +56,12 @@ void pwm_motor(char dir, float pwm) {
 
     PORTC |= (1 << PORTC5);
     PORTC &= ~(1 << PORTC3);
-    OCR0A = pwm_8bits;
+
+    if (pwm < 100) {
+      OCR0A = pwm_8bits;
+    } else {
+      OCR0A = 255;
+    }
 
   } else {
 
@@ -60,7 +69,12 @@ void pwm_motor(char dir, float pwm) {
 
       PORTC |= (1 << PORTC3);
       PORTC &= ~(1 << PORTC5);
+
+      if (pwm < 100) {
       OCR0A = pwm_8bits;
+    } else {
+      OCR0A = 255;
+    }
 
     } else {
 
@@ -81,17 +95,27 @@ float get_rpm() {
 
   float rpm = 0.0;
 
-  tempo_atual = millis(); 
+  tempo_atual = millis();
 
-  if (tempo_atual - tempo_passado > 1000) {
+  if (tempo_atual - tempo_passado >= 999) {
+
+    EIMSK &= ~(1 << INT1);
 
     float tempo = tempo_atual - tempo_passado;
 
     rpm = (60000/(tempo * (float)passos_por_volta)) * passos;
 
+    //Serial.print("Passos: ");
+    //Serial.println(passos);
+    //Serial.print("Tempo: ");
+    //Serial.println(tempo);
+    //Serial.print("RPM: ");
+
     tempo_passado = tempo_atual;
 
     passos = 0;
+
+    EIMSK |= (1 << INT1);
 
   }
 
@@ -103,13 +127,25 @@ void Set_EXTERNAL_INTERRUPT_RPM() {
 /* Configura interrupção externa nos registadores como borda de
    subida para o pino de encoder (D20) */
 
-  EICRA |= (1 << ISC10);
+  EICRA &= ~(1 << ISC10);
   EICRA |= (1 << ISC11);
 
   EIMSK |= (1 << INT1);
-
+  
 }
 
 ISR(INT1_vect){ // Função de interrupção.
-   passos += 1;
-}
+
+ // t_atual_Interrupt = millis();
+
+ // if  (digitalRead(20) == LOW) {
+   // t_passado_Interrupt = t_atual_Interrupt;
+     //Serial.println("IF 1");
+ // }
+  //if (t_atual_Interrupt - t_passado_Interrupt >= 60)  {
+     passos = passos + 1;
+      //Serial.println("IF 2"); 
+//  }
+        
+        
+  }
