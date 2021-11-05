@@ -14,7 +14,7 @@
 
   // Instânciação dos objetos da classe MAX6675
 
-  MAX6675 thermoN(SCK_1, CS_1, SO_1); // Termopar 1: Nozzle
+  MAX6675 thermo1(SCK_1, CS_1, SO_1); // Termopar 1
   MAX6675 thermo2(SCK_2, CS_2, SO_2); // Termopar 2
   MAX6675 thermo3(SCK_3, CS_3, SO_3); // Termopar 3
   MAX6675 thermo4(SCK_4, CS_4, SO_4); // Termopar 4

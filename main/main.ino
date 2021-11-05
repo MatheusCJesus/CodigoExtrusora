@@ -83,14 +83,18 @@ void loop() {
   if (display_flag) {
 
     Serial.println("============Temperaturas=============");
-    Serial.print("Nuzzle: ");
-    Serial.print(thermoN.readCelsius());
+    Serial.print("Termopar 1: ");
+    Serial.print(thermo1.readCelsius());
     Serial.print(" || Termopar 2: ");
     Serial.print(thermo2.readCelsius());
     Serial.print(" || Termopar 3: ");
     Serial.print(thermo3.readCelsius());
     Serial.print(" || Termopar 4: ");
-    Serial.println(thermo4.readCelsius());
+    Serial.print(thermo4.readCelsius());
+    Serial.print(" || Termopar 5: ");
+    Serial.print(thermo5.readCelsius());
+    Serial.print(" || Termopar 6: ");
+    Serial.println(thermo6.readCelsius());
     
     Serial.println("==============Motor DC==============="); 
     Serial.print("I_motor: ");
