@@ -81,7 +81,7 @@
 
 /*
   G1 -> Velocidade do motor extrusor. Ex: G1 A 50 -> sentido anti-horário 50% PWM
-  G2 -> Velocidade dos motores de passo. Ex: G2 P 2 -> motor puxador em 2 rpm (motor boninador "B")
+  G2 -> Velocidade dos motores de passo. Ex: G2 P A 2 -> motor puxador em 2 rpm sentido anti-horário(motor boninador "P")
   G3 -> PWM das resistências. Ex: G3 80 -> PWM das resistências em 80%
   G4 -> Tempo de impressão das informações no monitor serial. Ex: G4 2 -> Imprime as informações a cada 2 segundos.
 */

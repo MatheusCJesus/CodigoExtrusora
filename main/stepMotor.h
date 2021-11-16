@@ -15,7 +15,9 @@
 void define_pwm() {
 
   DDRB |= (1 << DDB5);  // pinMode(11, OUTPUT);
+  DDRB |= (1 << DDB6);  // pinMode(12, OUTPUT);
   DDRL |= (1 << DDL3);  // pinMode(46, OUTPUT);
+  DDRL |= (1 << DDL1);  // pinMode(48, OUTPUT);
 
 
   // Configura o PWM nos modos "Phase and frequency correct" - tabela 17-2 do datasheet
@@ -50,11 +52,16 @@ void define_pwm() {
 
   TCCR5B &= ~(1 << CS51);
   TCCR5B |=  (1 << CS50);
+
+  ICR1 = 0;
+  OCR1A = 0;
+  ICR5 = 0;
+  OCR5A = 0;
   
 }
 //FIM
 
-void rpm_motor(char motor, float rpm) {
+void rpm_motor(char motor, char dir, float rpm) {
 
   // Micro passo = 1/32 avos
   // Angulo por passo = 0,05625 --> 0,05625*passos = 360
@@ -62,8 +69,18 @@ void rpm_motor(char motor, float rpm) {
 
   float freq = 0.0;
 
+  if (dir == 'A' | dir == 'a') {
+    PORTB |=  (1 << PORTB6);
+    Serial.println("A");
+  } else {
+      if (dir == 'C' | dir == 'c') {
+      PORTB &= ~(1 << PORTB6);
+    }
+  }
+
   if (motor == 'p' | motor == 'P') {
 
+    Serial.println("P");
     freq = (rpm * 6400) / 60;
     ICR1 = 0;
     OCR1A = uint16_t(16000000 / (4 * 1 * freq));

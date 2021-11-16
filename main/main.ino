@@ -33,6 +33,8 @@ float media_i_out = 0;
 uint8_t l = 0;
 uint8_t k = 0;
 
+bool flag_print = false;
+
 /* ------------- Fim das definições ------------- */
 
 void setup() {
@@ -95,18 +97,23 @@ void loop() {
     Serial.print(thermo5.readCelsius());
     Serial.print(" || Termopar 6: ");
     Serial.println(thermo6.readCelsius());
-    
+
+    if(flag_print) {
     Serial.println("==============Motor DC==============="); 
     Serial.print("I_motor: ");
     Serial.print(media_i_out);
     Serial.print(" || RPM motor DC: ");
     Serial.println(get_rpm());
+    flag_print = false;
+    } else {
 
     Serial.println("============Resistencias============="); 
     Serial.print("I_res1: ");
     Serial.print(current_res1());
     Serial.print(" || I_res2: ");
     Serial.println(current_res2());
+    flag_print = true;
+    }
 
     Serial.println("========Diametro do filamento========");
     Serial.print("Diametro[mm]: ");
@@ -150,19 +157,21 @@ void loop() {
 
       if(commands == 2){
         
-        char motor[1];
+        char motor[1], dir[1], memMotor;
         float rpm = 0;
 
         token = strtok(inputString, " ");
         token = strtok(NULL, " ");
         strcpy(motor, token);
+        memMotor = motor[0];
+        
+        token = strtok(NULL, " ");
+        strcpy(dir, token);
 
         token = strtok(NULL, " ");
         rpm = atof(token);
 
-        rpm_motor(motor[0], rpm);
-
-        inputString[0] = 'a';
+        rpm_motor(memMotor, dir[0], rpm);
 
         memset(inputString, NULL, 10);
 

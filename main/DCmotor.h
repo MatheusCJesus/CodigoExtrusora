@@ -50,7 +50,7 @@ float calcula_CS() { // Função para calcular a corrente no motor
 
 void pwm_motor(char dir, float pwm) {
 
-  float pwm_8bits = (255 * pwm) / 100;
+  float pwm_8bits = (1023 * pwm) / 100;
 
   if (dir == 'c' | dir == 'C') { // Rotaciona o motor no sentido horário
 
@@ -60,7 +60,7 @@ void pwm_motor(char dir, float pwm) {
     if (pwm < 100) {
       OCR0A = pwm_8bits;
     } else {
-      OCR0A = 255;
+      OCR0A = 1023;
     }
 
   } else {
@@ -73,7 +73,7 @@ void pwm_motor(char dir, float pwm) {
       if (pwm < 100) {
       OCR0A = pwm_8bits;
     } else {
-      OCR0A = 255;
+      OCR0A = 1023;
     }
 
     } else {
