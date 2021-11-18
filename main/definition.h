@@ -15,27 +15,27 @@
 // Pinos digitais dos módulos de termopar
 // INÍCIO
 #define SCK_1 22  //------------ ------
-#define SO_1  24  // Termopar 1: Nozzle
-#define CS_1  26  //------------ ------
+#define SO_1  26  // Termopar 1: Nozzle
+#define CS_1  24   //------------ ------
 
 #define SCK_2 23  //-----------
-#define SO_2  27  // Termopar 2
+#define SO_2  27  // 12 mm
 #define CS_2  25  //-----------
 
 #define SCK_3 29  //-----------
-#define SO_3  33  // Termopar 3
+#define SO_3  33  // 6 mm
 #define CS_3  31  //-----------
 
 #define SCK_4 35  //-----------
-#define SO_4  39  // Termopar 4
+#define SO_4  39  // 0 mm
 #define CS_4  37  //-----------
 
 #define SCK_5 41  //-----------
-#define SO_5  45  // Termopar 5
+#define SO_5  45  // Term Pol 2
 #define CS_5  43  //-----------
 
 #define SCK_6 47  //-----------
-#define SO_6  51  // Termopar 6
+#define SO_6  51  // Term Pol 1
 #define CS_6  49  //-----------
 //FIM
 
@@ -81,7 +81,7 @@
 
 /*
   G1 -> Velocidade do motor extrusor. Ex: G1 A 50 -> sentido anti-horário 50% PWM
-  G2 -> Velocidade dos motores de passo. Ex: G2 P A 2 -> motor puxador em 2 rpm sentido anti-horário(motor boninador "P")
+  G2 -> Velocidade dos motores de passo. Ex: G2 P 2 -> motor puxador em 2 rpm (motor boninador "B")
   G3 -> PWM das resistências. Ex: G3 80 -> PWM das resistências em 80%
   G4 -> Tempo de impressão das informações no monitor serial. Ex: G4 2 -> Imprime as informações a cada 2 segundos.
 */

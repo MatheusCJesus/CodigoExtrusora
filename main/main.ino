@@ -19,14 +19,14 @@
 
 /* ------------- Início das definições ------------- */
 
-char inputString[10];      // a String to hold incoming data
+char inputString[15];      // a String to hold incoming data
 bool stringComplete = false, erro = false;  // whether the string is complete
 char *token;
 uint8_t commands;
 char valid_commands[4] = {'1','2','3','4'};
 uint8_t i = 0;
 uint8_t buf_len = 0;
-char buf[10];
+char buf[15];
 
 float soma_i_out = 0;
 float media_i_out = 0;
@@ -85,35 +85,29 @@ void loop() {
   if (display_flag) {
 
     Serial.println("============Temperaturas=============");
-    Serial.print("Termopar 1: ");
-    Serial.print(thermo1.readCelsius());
-    Serial.print(" || Termopar 2: ");
+    //Serial.print("Termopar 1: ");
+    //Serial.print(thermo1.readCelsius());
+    Serial.print(" || 12 mm: ");
     Serial.print(thermo2.readCelsius());
-    Serial.print(" || Termopar 3: ");
+    Serial.print(" || 6 mm: ");
     Serial.print(thermo3.readCelsius());
-    Serial.print(" || Termopar 4: ");
+    Serial.print(" || 0 mm: ");
     Serial.print(thermo4.readCelsius());
-    Serial.print(" || Termopar 5: ");
+    Serial.print(" || Term Pol 2: ");
     Serial.print(thermo5.readCelsius());
-    Serial.print(" || Termopar 6: ");
+    Serial.print(" || Term Pol 1: ");
     Serial.println(thermo6.readCelsius());
-
-    if(flag_print) {
     Serial.println("==============Motor DC==============="); 
     Serial.print("I_motor: ");
     Serial.print(media_i_out);
     Serial.print(" || RPM motor DC: ");
     Serial.println(get_rpm());
-    flag_print = false;
-    } else {
-
     Serial.println("============Resistencias============="); 
     Serial.print("I_res1: ");
     Serial.print(current_res1());
     Serial.print(" || I_res2: ");
     Serial.println(current_res2());
-    flag_print = true;
-    }
+    
 
     Serial.println("========Diametro do filamento========");
     Serial.print("Diametro[mm]: ");
@@ -149,31 +143,33 @@ void loop() {
 
         pwm_motor(rotacao[0], e_pwm);
 
-        memset(inputString, NULL, 10);
+        memset(inputString, NULL, 15);
 
         stringComplete = false;
 
       }
 
       if(commands == 2){
-        
-        char motor[1], dir[1], memMotor;
+
+        char motor[1], dir[1], motorreal;
         float rpm = 0;
 
         token = strtok(inputString, " ");
         token = strtok(NULL, " ");
         strcpy(motor, token);
-        memMotor = motor[0];
-        
+
+        motorreal=motor[0];
+
         token = strtok(NULL, " ");
         strcpy(dir, token);
 
         token = strtok(NULL, " ");
         rpm = atof(token);
 
-        rpm_motor(memMotor, dir[0], rpm);
+        rpm_motor(motorreal, dir[0],  rpm);
+        
 
-        memset(inputString, NULL, 10);
+        memset(inputString, NULL, 15);
 
         stringComplete = false;
 
@@ -206,7 +202,7 @@ void loop() {
           }
         }
 
-        memset(inputString, NULL, 10);
+        memset(inputString, NULL, 15);
 
         stringComplete = false;
 
@@ -222,7 +218,7 @@ void loop() {
 
         set_time(tempo);
 
-        memset(inputString, NULL, 10);
+        memset(inputString, NULL, 15);
 
         stringComplete = false;
 
@@ -244,7 +240,7 @@ void serialEvent() {
       if (buf[i-1] == '\n') {
         //buf[idx - 1] = '\0';
         memcpy(inputString, buf, i);
-        memset(buf, 0, 10);
+        memset(buf, 0, 15);
         stringComplete = true;
         Serial.print(inputString);
         Serial.println("");

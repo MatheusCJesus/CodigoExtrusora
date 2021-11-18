@@ -14,12 +14,12 @@
 
   // Instânciação dos objetos da classe MAX6675
 
-  MAX6675 thermo1(SCK_1, CS_1, SO_1); // Termopar 1
-  MAX6675 thermo2(SCK_2, CS_2, SO_2); // Termopar 2
-  MAX6675 thermo3(SCK_3, CS_3, SO_3); // Termopar 3
-  MAX6675 thermo4(SCK_4, CS_4, SO_4); // Termopar 4
-  MAX6675 thermo5(SCK_5, CS_5, SO_5); // Termopar 5
-  MAX6675 thermo6(SCK_6, CS_6, SO_6); // Termopar 6
+  MAX6675 thermo1(SCK_1, CS_1, SO_1); // 18 mm - Mas não está funcionando
+  MAX6675 thermo2(SCK_2, CS_2, SO_2); // 12 mm
+  MAX6675 thermo3(SCK_3, CS_3, SO_3); // 6 mm
+  MAX6675 thermo4(SCK_4, CS_4, SO_4); // 0 mm
+  MAX6675 thermo5(SCK_5, CS_5, SO_5); // Term Pol 2 - Termopar no polímero
+  MAX6675 thermo6(SCK_6, CS_6, SO_6); // Termo Pol 1 - Termopar no polímero
 
   // Flag que habilita o controle de temperatura
   bool temp_flag = false;
@@ -57,10 +57,10 @@ void temp_control() {
 
   float temp_media = 0.0;
 
-  temp_media = (thermo2.readCelsius() + thermo3.readCelsius()) / 2;
+  temp_media = (thermo5.readCelsius() + thermo6.readCelsius()) / 2;
 
   if (temp_media < temp) {
-    pwm_res(100.0);
+    pwm_res(80.0);
     
   } else {
     if (temp_media >= temp) {

@@ -9,7 +9,6 @@
   Bolsista FAPESP
 --------------------------------------------------------------------------------
 */
-
 /* ------------ Configurar os PWMs dos pinos STEP_P(D11) e STEP_B(D46) ------------ */
 //INÍCIO
 void define_pwm() {
@@ -18,7 +17,6 @@ void define_pwm() {
   DDRB |= (1 << DDB6);  // pinMode(12, OUTPUT);
   DDRL |= (1 << DDL3);  // pinMode(46, OUTPUT);
   DDRL |= (1 << DDL1);  // pinMode(48, OUTPUT);
-
 
   // Configura o PWM nos modos "Phase and frequency correct" - tabela 17-2 do datasheet
 
@@ -61,29 +59,29 @@ void define_pwm() {
 }
 //FIM
 
-void rpm_motor(char motor, char dir, float rpm) {
+void rpm_motor(char motor,char dir, float rpm) {
 
   // Micro passo = 1/32 avos
   // Angulo por passo = 0,05625 --> 0,05625*passos = 360
   // Passos para dar uma volta = 6400
 
   float freq = 0.0;
-
-  if (dir == 'A' | dir == 'a') {
-    PORTB |=  (1 << PORTB6);
-    Serial.println("A");
-  } else {
-      if (dir == 'C' | dir == 'c') {
-      PORTB &= ~(1 << PORTB6);
-    }
-  }
-
+  
   if (motor == 'p' | motor == 'P') {
 
-    Serial.println("P");
     freq = (rpm * 6400) / 60;
     ICR1 = 0;
-    OCR1A = uint16_t(16000000 / (4 * 1 * freq));
+    OCR1A = round(16000000 / (4 * 1 * freq));
+
+    if (dir == 'A' | dir == 'a') {
+      Serial.println("A");
+      PORTB |=  (1 << PORTB6);
+    } else {
+        if (dir == 'C' | dir == 'c') {
+          PORTB &= ~(1 << PORTB6);
+          Serial.println("C");
+        }
+     }
 
   } else {
 
@@ -91,7 +89,17 @@ void rpm_motor(char motor, char dir, float rpm) {
 
       freq = (rpm * 6400) / 60;
       ICR5 = 0;
-      OCR5A = uint16_t(16000000 / (4 * 1 * freq));
+      OCR5A = round(16000000 / (4 * 1 * freq));
+
+      if (dir == 'A' | dir == 'a') {
+        Serial.println("A");
+        PORTL |=  (1 << PORTL1);
+  } else {
+      if (dir == 'C' | dir == 'c') {
+        PORTL &= ~(1 << PORTL1);
+        Serial.println("C");
+    }
+  }
 
     }
   }
